@@ -3,6 +3,8 @@
 
 import { useRouter } from 'next/navigation';
 import Head from 'next/head';
+import Image from 'next/image';
+
 
 const Home = () => {
   const router = useRouter();
