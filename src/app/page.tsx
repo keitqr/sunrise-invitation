@@ -1,15 +1,15 @@
+// app/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Head from 'next/head'; // Εισαγωγή του Head component
+import Image from 'next/image'; // Εισαγωγή του Image component
 
 const Home = () => {
   const router = useRouter();
-  const [quizStarted, setQuizStarted] = useState(false);
 
   const startQuiz = () => {
-    setQuizStarted(true);
     router.push('/quiz'); // Προχωρά στην σελίδα του κουίζ
   };
 
@@ -34,10 +34,12 @@ const Home = () => {
         </div>
 
         {/* Εικόνα Δεινοσαύρου κάτω δεξιά με διπλάσιο μέγεθος */}
-        <img 
+        <Image 
           src="/dinosaur.png" 
-          alt="Δεινόσαυρος" 
-          className="absolute bottom-4 right-4 w-64 h-64" // Διπλασιασμένο μέγεθος της εικόνας
+          alt="Ένας πολύχρωμος δεινόσαυρος σε κινούμενη πόζα" 
+          className="absolute bottom-4 right-4 w-64 h-64"
+          width={256} 
+          height={256} 
         />
       </div>
     </>
