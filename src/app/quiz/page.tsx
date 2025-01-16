@@ -4,10 +4,10 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 
 const QuizPage = () => {
-  const router = useRouter();
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [answer, setAnswer] = useState('');
-  const [error, setError] = useState(false);
+  const router = useRouter(); // Χρησιμοποιείται για πλοήγηση μεταξύ σελίδων
+  const [questionIndex, setQuestionIndex] = useState(0); // Χρησιμοποιείται για διαχείριση των ερωτήσεων
+  const [answer, setAnswer] = useState(''); // Χρησιμοποιείται για αποθήκευση της απάντησης
+  const [error, setError] = useState(false); // Διαχειρίζεται τα σφάλματα
 
   const riddles = useMemo(() => [
     {
@@ -43,7 +43,33 @@ const QuizPage = () => {
     };
   }, [questionIndex, riddles]);
 
-  // Υπόλοιπος κώδικας...
+  const handleNextQuestion = () => {
+    if (answer.toLowerCase() === riddles[questionIndex].correctAnswer.toLowerCase()) {
+      setError(false);
+      if (questionIndex + 1 < riddles.length) {
+        setQuestionIndex(questionIndex + 1);
+        setAnswer('');
+      } else {
+        router.push('/success'); // Πλοήγηση στη σελίδα επιτυχίας
+      }
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <div>
+      <h1>{riddles[questionIndex].question}</h1>
+      <input
+        type="text"
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+        placeholder="Η απάντησή σου"
+      />
+      {error && <p style={{ color: 'red' }}>Λάθος απάντηση, προσπάθησε ξανά!</p>}
+      <button onClick={handleNextQuestion}>Επόμενη ερώτηση</button>
+    </div>
+  );
 };
 
 export default QuizPage;
