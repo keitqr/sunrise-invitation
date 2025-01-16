@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   try {
-    const { response } = await req.json();
+    const { response }: { response: string } = await req.json();
 
     if (!response) {
       return NextResponse.json({ message: 'Missing response' }, { status: 400 });
