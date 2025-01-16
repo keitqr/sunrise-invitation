@@ -1,3 +1,4 @@
+// quiz/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -43,16 +44,16 @@ const QuizPage = () => {
         audio.currentTime = 0;
       }
     };
-  }, [questionIndex]);
+  }, [questionIndex, riddles]); // Προστέθηκε το `riddles` στη λίστα εξαρτήσεων
 
   const checkAnswer = () => {
     // Αφαίρεση τόνων και σύγκριση πεζών/κεφαλαίων
     const normalizeString = (str: string) =>
       str
         .normalize('NFD') // Διαχωρίζει τα διακριτικά (τόνους) από τα γράμματα
-        .replace(/[\u0300-\u036f]/g, '') // Αφαιρεί τους τόνους
+        .replace(/[̀-ͯ]/g, '') // Αφαιρεί τους τόνους
         .toLowerCase(); // Μετατρέπει σε πεζά
-  
+
     if (normalizeString(answer.trim()) === normalizeString(riddles[questionIndex].correctAnswer)) {
       const audio = new Audio('/sounds/success.mp3');
       audio.play();
@@ -74,7 +75,6 @@ const QuizPage = () => {
       setError(true);
     }
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 p-6">
@@ -95,7 +95,7 @@ const QuizPage = () => {
           Υποβολή
         </button>
         {error && <p className="text-red-500 mt-4 text-center">Λάθος απάντηση, δοκίμασε ξανά!</p>}
-        
+
         {/* Μετρητής προόδου */}
         <div className="mt-8 w-full text-center">
           <p className="text-sm text-gray-200">Πρόοδος: {questionIndex + 1}/{riddles.length} </p>
